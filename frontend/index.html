@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f5f1">
+  <title>InquireX — Evidence workspace</title>
+  <link rel="icon" type="image/svg+xml" href="logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
+    <div class="login-card">
+      <div class="brand-lockup"><img class="brand-mark" src="logo-mark.svg" alt=""><span>Inquire<span class="brand-x">X</span></span></div>
+      <div class="login-illustration"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><img class="hero-logo" src="logo-mark.svg" alt=""><span class="sparkle">✳</span></div>
+      <p class="eyebrow">YOUR EVIDENCE WORKSPACE</p>
+      <h1 id="loginTitle">Good questions<br>deserve good sources.</h1>
+      <p class="login-copy">Investigate your documents, trace every answer, and see when sources disagree.</p>
+      <form id="loginForm" class="login-form">
+        <label for="username">Choose or enter your username</label>
+        <div class="username-field"><span>✳</span><input id="username" name="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" autocomplete="username" placeholder="e.g. raven_record" required><button type="submit" aria-label="Continue">↗</button></div>
+        <small id="accountHint">3–24 characters: letters, numbers, and underscores. New usernames create an account; existing ones open their saved investigations. Username-only access has no password protection.</small>
+        <p class="account-status" id="accountStatus" role="status" aria-live="polite"></p>
+      </form>
+      <div class="login-foot"><span class="lock-dot">◈</span> Your documents stay in your workspace</div>
+    </div>
+    <div class="login-side-note">ASK · TRACE · VERIFY</div>
+  </section>
+
+  <div class="app-shell" id="appShell" hidden>
+    <aside class="sidebar">
+      <div class="sidebar-brand"><img class="brand-mark" src="logo-mark.svg" alt=""><span>Inquire<span class="brand-x">X</span></span></div>
+      <button class="new-investigation" id="newChat"><span>＋</span> New investigation <kbd>⌘ K</kbd></button>
+      <nav class="primary-nav" aria-label="Workspace views">
+        <button class="nav-item active" data-view="chat"><span class="nav-icon">◉</span> Investigation <span class="nav-active-dot"></span></button>
+        <button class="nav-item" data-view="search"><span class="nav-icon">⌕</span> Search evidence</button>
+      </nav>
+      <div class="history-heading"><span>RECENTS</span><span id="investigationCount">0</span></div>
+      <nav class="investigation-history" id="investigationHistory" aria-label="Recent investigations"></nav>
+      <div class="sidebar-label"><span>YOUR DOCUMENTS</span><span class="doc-count" id="docCount">0</span><button id="addFiles" aria-label="Add documents">＋</button></div>
+      <div class="doc-list-wrap"><ul id="docList" class="doc-list"><li class="doc-empty">Your library is ready for its first document.</li></ul></div>
+      <label class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" multiple accept=".pdf,.txt,.md,.png,.jpg,.jpeg">
+        <span class="upload-icon">↑</span><span><strong>Add documents</strong><small>PDF, TXT, Markdown, images · up to 50 MB</small></span>
+      </label>
+      <p class="upload-status" id="uploadStatus" role="status"></p>
+      <div class="sidebar-bottom">
+        <div class="workspace-local-status"><span class="privacy-dot"></span><span>Local investigation workspace</span></div>
+        <button class="profile-button sidebar-account" id="profileButton" aria-haspopup="true" aria-expanded="false"><span class="avatar" id="userAvatar">?</span><span id="userLabel">Investigator</span><span class="chevron">⌄</span></button>
+        <div class="profile-menu" id="profileMenu" hidden><button id="changeName">Switch account</button><button id="logoutButton">Log out</button></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb"><span class="crumb-kicker">INVESTIGATIONS</span><span class="crumb-slash">›</span><strong>New investigation</strong></div>
+        <div class="top-actions"><div class="index-status"><i></i><span id="indexStatus">Connecting…</span></div><button class="help-button" id="helpButton" aria-label="Help">?</button></div>
+      </header>
+
+      <section class="workspace-overview" aria-label="Investigation overview">
+        <div class="workspace-title-row"><div><h1 id="workspaceTitle">New investigation</h1><p><span id="workspaceDocCount">0 documents</span><span>·</span><span id="workspacePageCount">0 pages</span><span>·</span><strong id="workspaceIndexLabel">Ready to index</strong></p></div><span class="workspace-live"><i></i> Local workspace</span></div>
+        <div class="document-strip" id="documentCards">
+          <button class="upload-card" id="workspaceUploadBtn" type="button"><span class="upload-card-icon">⇧</span><strong>Drop files or upload</strong><small>PDF, TXT, Markdown, images · OCR for scans</small></button>
+          <div class="document-card-empty">Your indexed documents will appear here.</div>
+        </div>
+      </section>
+
+      <section class="chat-view" id="chatView">
+        <div class="messages" id="messages" aria-live="polite">
+          <div class="welcome" id="welcome">
+            <span class="welcome-kicker"><i></i> YOUR DOCUMENTS, UNDERSTOOD</span>
+            <h1>What are you<br><em>looking into?</em></h1>
+            <p>Ask across your documents. Every answer comes with its source, and disagreements are brought into view.</p>
+            <div class="starter-label">A FEW PLACES TO START</div>
+            <div class="starter-prompts"><button data-prompt="Summarize the key points in my documents">✳ <span>Summarize the key points</span><b>↗</b></button><button data-prompt="What dates or deadlines should I know about?">◷ <span>Find dates and deadlines</span><b>↗</b></button><button data-prompt="Do any documents contradict each other?">≠ <span>Look for disagreements</span><b>↗</b></button></div>
+          </div>
+        </div>
+        <form id="askForm" class="ask">
+          <div class="composer"><textarea id="question" rows="1" placeholder="Ask a question about your documents…" required></textarea><div class="composer-bottom"><span class="composer-hint">Grounded in the sources you select</span><button type="submit" id="askBtn"><span>Investigate</span><b>↑</b></button></div></div>
+          <p class="composer-note">InquireX can make mistakes. Check important details against the cited passages.</p>
+        </form>
+      </section>
+
+      <section class="search-view" id="searchView" hidden>
+        <div class="search-heading"><span class="welcome-kicker"><i></i> SEARCH YOUR LIBRARY</span><h1>Find the passage.<br><em>Follow the evidence.</em></h1><p>Search what your documents say and jump straight to the relevant passage.</p></div>
+        <form class="search-form" id="searchForm"><span>⌕</span><input id="searchQuery" type="search" placeholder="Search names, dates, terms, or phrases…" autocomplete="off"><button type="submit">Search <b>↗</b></button></form>
+        <div class="search-controls"><span id="searchSummary">Search all indexed documents</span><label><input id="searchSelectedOnly" type="checkbox"> Selected documents only</label></div>
+        <div class="search-results" id="searchResults"><div class="search-empty"><span>⌕</span><strong>Your evidence is waiting.</strong><p>Enter a phrase, date, or topic to find matching passages.</p></div></div>
+      </section>
+    </main>
+
+    <aside class="evidence-panel" id="evidencePanel" aria-label="Evidence inspector">
+      <div class="evidence-panel-head"><div><span class="evidence-heading-icon">▤</span><strong>Evidence inspector</strong></div><span class="evidence-count" id="evidenceCount">0</span></div>
+      <div class="evidence-tabs" role="tablist" aria-label="Evidence views"><button class="evidence-tab active" type="button" data-evidence-view="passages">Retrieved passages</button><button class="evidence-tab" type="button" data-evidence-view="claims">Claim links</button></div>
+      <div class="evidence-panel-content" id="evidenceContent"><div class="evidence-placeholder"><span>◈</span><strong>Evidence will appear here</strong><p>Ask a question to see the passages that support the answer and any detected conflicts.</p></div></div>
+    </aside>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

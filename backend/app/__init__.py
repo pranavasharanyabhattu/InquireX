@@ -1,0 +1,1 @@
+"""InquireX backend application package."""

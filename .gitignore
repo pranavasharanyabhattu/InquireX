@@ -1,0 +1,54 @@
+# Local configuration and secrets. Keep the checked-in template files.
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python environments, bytecode, and tool caches.
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# InquireX runtime uploads, account registry, and vector database.
+backend/app/data/
+**/app/data/
+*.sqlite
+*.sqlite3
+*.db
+
+# Temporary and backup files.
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Frontend dependencies and generated output (if added later).
+node_modules/
+
+# Local editor / operating-system files and logs.
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.log
+.idea/
+.vscode/
