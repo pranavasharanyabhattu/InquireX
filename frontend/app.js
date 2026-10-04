@@ -272,6 +272,27 @@ function sourceHTML(s) {
     </details>`;
 }
 
+function answerTextHTML(answer = "") {
+  const blocks = [];
+  let bullets = [];
+  const flushBullets = () => {
+    if (!bullets.length) return;
+    blocks.push(`<ul class="answer-bullets">${bullets.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`);
+    bullets = [];
+  };
+  for (const line of String(answer).split(/\r?\n/)) {
+    const text = line.trim();
+    const bullet = text.match(/^(?:[-*•])\s+(.+)$/);
+    if (bullet) bullets.push(bullet[1]);
+    else {
+      flushBullets();
+      if (text) blocks.push(`<p>${esc(text)}</p>`);
+    }
+  }
+  flushBullets();
+  return blocks.join("");
+}
+
 function conflictsHTML(list = []) {
   if (!list.length) return "";
   return `
@@ -305,7 +326,7 @@ function answerHTML(r) {
     <article class="answer ${thin ? "thin" : ""}">
       ${fallback}${conflictLabel}
       ${conflictUnavailable}
-      <p class="answer-text">${esc(r.answer)}</p>
+      <div class="answer-text">${answerTextHTML(r.answer)}</div>
       <p class="confidence">Confidence: <b class="${esc(level)}">${esc(level)}</b>${
         r.confidence_reason ? ` — ${esc(r.confidence_reason)}` : ""}</p>
       ${conflictsHTML(r.conflicts)}
@@ -349,6 +370,7 @@ async function startWorkspace(account) {
   setProfile(accountUsername);
   const legacy = account.created && legacyMigrationAvailable
     ? legacyInvestigations.filter((item) => item.turns?.length || item.documentIds?.length)
+    : [];
   investigations = (account.created ? legacy : (Array.isArray(account.investigations) ? account.investigations : [])).filter((item) => item && typeof item === "object");
   legacyInvestigations = [];
   legacyMigrationAvailable = false;
@@ -447,7 +469,13 @@ els.messages.addEventListener("click", async (e) => {
   if (!card) return;
   if (action === "copy") {
     try {
-      await navigator.clipboard.writeText(card.querySelector(".answer-text")?.textContent || "");
+      const answer = card.querySelector(".answer-text");
+      const text = answer ? [...answer.children].map((block) =>
+        block.matches(".answer-bullets")
+          ? [...block.querySelectorAll("li")].map((item) => `• ${item.innerText}`).join("\n")
+          : block.innerText,
+      ).join("\n\n") : "";
+      await navigator.clipboard.writeText(text);
       showToast("Answer copied.");
     } catch {
       showToast("Could not copy answer to clipboard.");

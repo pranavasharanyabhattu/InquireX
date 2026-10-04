@@ -32,7 +32,7 @@ body {
 body {
     background: var(--canvas);
     color: var(--ink);
-    font: 14px/1.5 var(--sans)
+    font: 16px/1.5 var(--sans)
 }
 
 button,
@@ -197,19 +197,19 @@ textarea:focus-visible {
 
 .eyebrow,
 .welcome-kicker {
-    font: 500 9px var(--mono);
+    font: 500 11px var(--mono);
     letter-spacing: .12em;
     color: #758574
 }
 
 .login-card h1 {
-    font: 700 29px/1.18 var(--display);
+    font: 700 38px/1.12 var(--display);
     letter-spacing: -.055em;
     margin: 10px 0
 }
 
 .login-copy {
-    font-size: 12px;
+    font-size: 15px;
     line-height: 1.75;
     color: #737c73;
     margin: 0 0 23px;
@@ -218,7 +218,7 @@ textarea:focus-visible {
 
 .login-form label {
     display: block;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: 7px
 }
@@ -248,7 +248,7 @@ textarea:focus-visible {
     outline: 0;
     background: none;
     min-width: 0;
-    font-size: 12px
+    font-size: 15px
 }
 
 .username-field input::placeholder {
@@ -272,10 +272,10 @@ textarea:focus-visible {
 .login-form small {
     display: block;
     color: #9a9f98;
-    font-size: 9px;
+    font-size: 12px;
     margin-top: 7px
 }
-.login-form .account-status{min-height:14px;margin:7px 0 0;color:#477658;font-size:9px;line-height:1.5;overflow-wrap:anywhere}
+.login-form .account-status{min-height:18px;margin:7px 0 0;color:#477658;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
 .login-form .account-status.error{color:#a84f42}
 .username-field button:disabled{opacity:.65;cursor:wait}
 
@@ -287,7 +287,7 @@ textarea:focus-visible {
     align-items: center;
     gap: 7px;
     color: #929990;
-    font-size: 9px
+    font-size: 12px
 }
 
 .lock-dot {
@@ -298,7 +298,7 @@ textarea:focus-visible {
     position: absolute;
     bottom: 25px;
     right: 32px;
-    font: 9px var(--mono);
+    font: 10px var(--mono);
     letter-spacing: .12em;
     color: #9da59b
 }
@@ -1873,3 +1873,87 @@ body {
 .sidebar-label{flex:none}
 .doc-list-wrap{flex:0 1 auto}
 .assistant-reply,.thinking{display:flex;align-items:flex-start;gap:10px;margin:16px 0 22px}.assistant-mark{width:25px;height:25px;flex:none;border-radius:8px;background:#2f5945;padding:3px}.assistant-reply .answer{max-width:min(760px,calc(100% - 38px));flex:1}.thinking>div{padding:8px 11px;border:1px solid #e7ebe4;border-radius:4px 11px 11px;background:#f8faf6;color:#465246}.thinking b,.thinking small{display:block}.thinking b{font-size:10px}.thinking small{font-size:9px;color:#8a9288;margin-top:3px}.conflict-intro{color:#8a6337;font-size:10px;background:#fbf7ed;border-left:2px solid #d4ad69;padding:8px 10px;margin:0 0 10px}.answer-actions{display:flex;gap:7px;margin-top:12px}.answer-actions button,.retry-action{border:1px solid #e4e9e1;border-radius:5px;background:#fff;color:#607560;padding:5px 8px;font-size:8px}.answer-actions button:hover,.retry-action:hover{background:#f0f5ee;border-color:#cfddcc}.error-msg{color:#895b52;background:#fcf5f3;border:1px solid #f0dfda;padding:10px 12px;border-radius:8px;max-width:520px;font-size:10px}.error-msg p{margin:4px 0 7px;overflow-wrap:anywhere}.index-status.offline i{background:#d69c50}.index-status.offline{color:#917343}.doc-row{border-radius:6px}.doc-row:hover{background:#f0f3ee}.doc-row label{padding:3px}.doc-row input{width:12px;height:12px}.doc-row .doc-name{font-size:9px}.doc-row .doc-name small{display:block}.doc-del{opacity:0}.doc-row:hover .doc-del,.doc-del:focus-visible{opacity:1}.search-loading{padding:24px;color:#7a8679}.search-empty{border:1px dashed #dfe5dc;border-radius:9px;padding:25px 15px;text-align:center;color:#889187}.search-empty>span{display:block;font-size:24px;color:#829580}.search-empty strong{font-size:11px;color:#546454}.search-empty p{font-size:9px;margin:5px 0}.sources h3,.conflicts h3{font-size:10px;letter-spacing:.02em}.source summary{cursor:pointer}.passage{white-space:pre-wrap}.q{margin:12px 0 3px auto;max-width:min(75%,600px);padding:10px 13px;background:#eaf1e7;border:1px solid #e0e9dd;border-radius:12px 4px 12px 12px;color:#344638;font-size:11px}.welcome[hidden]{display:none!important}
+
+/* Readable workspace text overrides. */
+.new-investigation,
+.nav-item,
+.history-item,
+.doc-row .doc-name,
+.search-loading,
+.result-meta strong,
+.evidence-panel-head>div,
+.evidence-tab {
+    font-size: 13px;
+}
+
+.history-heading,
+.sidebar-label,
+.workspace-title-row p,
+.workspace-live,
+.upload-card strong,
+.document-card strong,
+.document-card>small,
+.evidence-list-heading,
+.evidence-placeholder strong,
+.evidence-card-meta strong,
+.claim-group h3,
+.result-meta,
+.result-snippet {
+    font-size: 12px;
+}
+
+.workspace-title-row h1 {
+    font-size: 22px;
+}
+
+.welcome>p,
+.search-heading>p,
+.evidence-placeholder p,
+.evidence-card>p,
+.claim-source p,
+.source-excerpt,
+.answer-copy,
+.q {
+    font-size: 15px;
+}
+
+.answer-actions button,
+.retry-action,
+.quiet-action,
+.thinking b,
+.thinking small,
+.conflict-intro,
+.error-msg,
+.search-empty p,
+.evidence-tag,
+.claim-relation {
+    font-size: 12px;
+}
+
+@media (max-width: 760px) {
+    .workspace-title-row h1 {
+        font-size: 20px;
+    }
+}
+
+.answer-text {
+    color: #303931;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: normal;
+}
+
+.answer-text p {
+    margin: 0 0 10px;
+}
+
+.answer-bullets {
+    margin: 0 0 10px;
+    padding-left: 1.4em;
+}
+
+.answer-bullets li + li {
+    margin-top: 5px;
+}
