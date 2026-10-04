@@ -33,9 +33,6 @@ def _is_summary_question(question: str) -> bool:
     ))
 
 
-is_summary_question = _is_summary_question
-
-
 def _excerpt(text: str, limit: int = 380) -> str:
     clean = " ".join(text.split())
     sentences = re.split(r"(?<=[.!?])\s+", clean)

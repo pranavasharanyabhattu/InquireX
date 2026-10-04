@@ -1,3 +1,4 @@
+"""Chroma for passages (uses its built-in MiniLM embeddings) + a tiny JSON registry for documents."""
 import json
 from threading import Lock
 import chromadb
@@ -30,16 +31,6 @@ def search(question: str, doc_ids: list[str], k: int = config.TOP_K) -> list[dic
         {**meta, "text": text, "distance": dist}
         for text, meta, dist in zip(res["documents"][0], res["metadatas"][0], res["distances"][0])
     ]
-
-
-def lead_passages(doc_ids: list[str], per_doc: int = 2, max_docs: int = 6) -> list[dict]:
-    ids = doc_ids or [d["id"] for d in _load()]
-    passages = []
-    for doc_id in ids[:max_docs]:
-        res = _col.get(ids=[f"{doc_id}-{i}" for i in range(per_doc)], include=["documents", "metadatas"])
-        for text, meta in zip(res.get("documents") or [], res.get("metadatas") or []):
-            passages.append({**meta, "text": text, "distance": 0.0})
-    return passages
 
 
 def delete_chunks(doc_id: str) -> None:
@@ -78,6 +69,7 @@ def unregister_doc(doc_id: str) -> bool:
 
 
 def _write_registry(docs: list[dict]) -> None:
+    """Replace the registry atomically so an interrupted write cannot corrupt it."""
     config.DATA_DIR.mkdir(parents=True, exist_ok=True)
     temp = config.REGISTRY_FILE.with_suffix(".tmp")
     temp.write_text(json.dumps(docs, ensure_ascii=False), encoding="utf-8")

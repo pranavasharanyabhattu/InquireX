@@ -18,14 +18,9 @@ def to_source(passage: dict, highlight: str | None = None) -> Source:
 
 @router.post("", response_model=AskResponse)
 def ask(req: AskRequest):
-    summary = answer.is_summary_question(req.question)
-    if summary:
-        passages = vectorstore.lead_passages(req.document_ids)
-    else:
-        passages = vectorstore.search(req.question, req.document_ids)
-
-    too_far = not summary and bool(passages) and passages[0]["distance"] > config.MAX_DISTANCE
-    if not passages or too_far:
+    passages = vectorstore.search(req.question, req.document_ids)
+    print("[ask] best distance:", round(passages[0]["distance"], 2) if passages else None)
+    if not passages or passages[0]["distance"] > config.MAX_DISTANCE:
         return AskResponse(
             answer="I couldn't find anything about this in the selected documents.",
             answer_mode="insufficient_evidence",

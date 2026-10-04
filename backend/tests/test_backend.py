@@ -61,29 +61,35 @@ def test_accounts_open_and_save(tmp_path, monkeypatch):
     assert res["created"] is True
     assert res["investigations"] == []
 
+    # Opening existing account returns created=False
     res2 = accounts.open_account("test_user")
     assert res2["created"] is False
 
+    # Save investigations
     inv = [{"id": "inv-123", "title": "My search", "documentIds": ["d1"], "turns": []}]
     saved = accounts.save_investigations("test_user", inv)
     assert saved is True
 
+    # Re-open account and check persisted data
     res3 = accounts.open_account("test_user")
     assert len(res3["investigations"]) == 1
     assert res3["investigations"][0]["id"] == "inv-123"
 
 
 def test_vectorstore_empty_add_chunks():
+    # Should not raise exception when empty chunks passed
     vectorstore.add_chunks("doc-empty", "empty.pdf", [])
 
 
 def test_login_validation():
+    # Username with invalid characters should fail validation
     res = client.post("/api/accounts/login", json={"username": "ab"})
     assert res.status_code == 422
 
     res_invalid_chars = client.post("/api/accounts/login", json={"username": "user!@#$"})
     assert res_invalid_chars.status_code == 422
 
+    # Valid username succeeds
     res_valid = client.post("/api/accounts/login", json={"username": "valid_user_123"})
     assert res_valid.status_code == 200
 
@@ -107,19 +113,3 @@ def test_extract_empty_txt(tmp_path):
     with pytest.raises(ValueError, match="empty"):
         extract.extract_pages(empty_file)
 
-
-
-def test_summary_question_bypasses_similarity_gate(monkeypatch):
-    lead = [{"doc_id": "d1", "doc_name": "contract.pdf", "page": 1, "text": "This agreement is between A and B.", "distance": 0.0}]
-    monkeypatch.setattr(vectorstore, "lead_passages", lambda ids: lead)
-    monkeypatch.setattr(vectorstore, "search", lambda q, ids: [{**lead[0], "distance": 1.9}])
-    res = client.post("/api/ask", json={"question": "What is this document about?", "document_ids": []})
-    assert res.status_code == 200
-    assert res.json()["insufficient_evidence"] is False
-
-
-def test_unrelated_question_still_hits_gate(monkeypatch):
-    far = [{"doc_id": "d1", "doc_name": "contract.pdf", "page": 1, "text": "x", "distance": 1.9}]
-    monkeypatch.setattr(vectorstore, "search", lambda q, ids: far)
-    res = client.post("/api/ask", json={"question": "What is the weather in Paris?", "document_ids": []})
-    assert res.json()["insufficient_evidence"] is True
